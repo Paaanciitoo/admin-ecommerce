@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+model Store {
+  id        String      @id @default(uuid())
+  name      String
+  userId    String
+  billboards Billboard[] @relation("StoreToBillboard")
+  createAt  DateTime    @default(now())
+  updateAt  DateTime    @updatedAt
+}
+
+model Billboard {
+  id       String      @id @default(uuid())
+  storeId  String
+  store    Store       @relation("StoreToBillboard", fields: [storeId], references: [id])
+  label   String
+  imageUrl String
+  createAt DateTime    @default(now())
+  updateAt DateTime    @updatedAt
+
+  @@index([storeId])
+}
