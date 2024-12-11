@@ -9,6 +9,7 @@ import { BillboardColumn, columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { ApiList } from "@/components/ui/api-list";
 
 interface BillboardClientProps {
   data: BillboardColumn[];
@@ -32,7 +33,12 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
           title={`Cartelera (${data.length})`}
           description="Maneja la cartelera de tu tienda aquí"
         />
-        <Button onClick={handleAddBillboard} disabled={isLoading}>
+        <Button
+          onClick={handleAddBillboard}
+          disabled={isLoading}
+          style={{ backgroundColor: "#16a34a", color: "white" }}
+          className="rounded-full"
+        >
           {isLoading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -48,6 +54,12 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
       </div>
       <Separator />
       <DataTable searchKey="label" columns={columns} data={data} />
+      <Heading
+        title="API"
+        description="Llama a la API para obtener la cartelera"
+      />
+      <Separator />
+      <ApiList entityName="cartelera" entityIdName="carteleraId" />
     </>
   );
 };

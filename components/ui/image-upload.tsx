@@ -21,6 +21,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [removingUrl, setRemovingUrl] = useState<string | null>(null);
+  const [isPressed, setIsPressed] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -35,7 +36,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     setTimeout(() => {
       onRemove(url);
       setRemovingUrl(null);
-    }, 300); // Coincide con la duración de la animación
+    }, 300);
   };
 
   if (!isMounted) {
@@ -64,10 +65,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               <Button
                 type="button"
                 onClick={() => handleRemove(url)}
-                variant={"destructive"}
-                size={"icon"}
+                variant="destructive"
+                size="icon"
               >
-                <Trash size={24} className="h-4 w-4" />
+                <Trash className="h-4 w-4" />
               </Button>
             </div>
             <Image fill className="object-cover" alt="Imagen" src={url} />
@@ -84,11 +85,19 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             <Button
               type="button"
               disabled={disabled}
-              variant={"secondary"}
+              variant="secondary"
               onClick={onClick}
+              onMouseDown={() => setIsPressed(true)}
+              onMouseUp={() => setIsPressed(false)}
+              onMouseLeave={() => setIsPressed(false)}
+              className={`
+                bg-blue-700 text-white
+                transition-all duration-150 ease-in-out
+                ${isPressed ? 'transform scale-95 bg-blue-800' : 'hover:bg-blue-600'}
+              `}
             >
               <ImagePlus className="h-4 w-4 mr-2" />
-              Subir un fondo
+              Subir una imagen
             </Button>
           );
         }}

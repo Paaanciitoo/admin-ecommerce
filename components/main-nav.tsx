@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { Bone } from "lucide-react";
+import { Bone } from 'lucide-react';
 
 export function MainNav({
   className,
@@ -14,16 +14,23 @@ export function MainNav({
   const params = useParams();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [targetPath, setTargetPath] = useState<string | null>(null);
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, [pathname]);
-
-  const routes = [
+  const routes = useMemo(() => [
     {
       href: `/${params.storeId}`,
       label: "Inicio",
       active: pathname === `/${params.storeId}`,
+    },
+    {
+      href: `/${params.storeId}/productos`,
+      label: "Productos",
+      active: pathname === `/${params.storeId}/productos`,
+    },
+    {
+      href: `/${params.storeId}/orders`,
+      label: "Pedidos",
+      active: pathname === `/${params.storeId}/orders`,
     },
     {
       href: `/${params.storeId}/cartelera`,
@@ -31,21 +38,42 @@ export function MainNav({
       active: pathname === `/${params.storeId}/cartelera`,
     },
     {
+      href: `/${params.storeId}/categorias`,
+      label: "Categorías",
+      active: pathname === `/${params.storeId}/categorias`,
+    },
+    {
+      href: `/${params.storeId}/pesos`,
+      label: "Peso",
+      active: pathname === `/${params.storeId}/pesos`,
+    },
+    {
+      href: `/${params.storeId}/colores`,
+      label: "Colores",
+      active: pathname === `/${params.storeId}/colores`,
+    },
+    {
       href: `/${params.storeId}/settings`,
       label: "Ajustes",
       active: pathname === `/${params.storeId}/settings`,
     },
-  ];
+  ], [params.storeId, pathname]);
 
-  const handleNavigation = (href: string) => {
+  const handleNavigation = useCallback((href: string) => {
     if (pathname === href) {
       return;
     }
     setIsLoading(true);
-    setTimeout(() => {
-      router.push(href);
-    });
-  };
+    setTargetPath(href);
+    router.push(href);
+  }, [pathname, router]);
+
+  useEffect(() => {
+    if (isLoading && targetPath === pathname) {
+      setIsLoading(false);
+      setTargetPath(null);
+    }
+  }, [isLoading, targetPath, pathname]);
 
   return (
     <>
@@ -83,3 +111,4 @@ export function MainNav({
     </>
   );
 }
+

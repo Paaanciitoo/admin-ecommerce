@@ -29,8 +29,8 @@ export const AlertModal: React.FC<AlertModalProps> = ({
 
   return (
     <Modal
-      title="¿Estás seguro que deseas eliminar la tienda"
-      description="Al eliminar la esta tienda, ya no podrás acceder a esta tienda desde es tu navegador."
+      title="¿Seguro que quieres eliminar este elemento?"
+      description="No podrás deshacer esta acción."
       isOpen={isOpen}
       onClose={onClose}
     >

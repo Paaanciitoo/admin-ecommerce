@@ -13,6 +13,7 @@ import { ToastProvider } from "@/providers/toast-provider";
 
 //Estilos globales
 import "./globals.css";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,9 +31,16 @@ export default function RootLayout({
     <ClerkProvider localization={esES}>
       <html lang="es-ES">
         <body className={inter.className}>
-          <ToastProvider />
-          <ModalProvider />
-          {children}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="white"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ToastProvider />
+            <ModalProvider />
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
