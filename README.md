@@ -22,7 +22,7 @@
 
 Este panel permite:
 - Visualización de estadísticas en tiempo real.
-- Modificación de banners, nombres y colores.
+- Modificación de banners, nombres, colores y más.
 - Configuración avanzada de la tienda: ajustes de peso, temas, branding.
 - Panel de control centralizado para gestión de recursos.
 
